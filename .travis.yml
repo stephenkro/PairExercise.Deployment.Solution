@@ -15,13 +15,14 @@ install:
   - npm ci # faster, goes only from package-lock
 before_script:
   - psql -c 'create database "still-bastion-81671-test";' -U postgres # remember to change this name if you change it elsewhere (e.g. package.json)
-
-# before_deploy:
-#   - npm run build-client # make the bundle
-#   - rm -rf node_modules # omit from the tarball, since we skip cleanup
-# deploy:
-#   skip_cleanup: true # prevents travis from deleting the build
-#   provider: heroku
-#   app: YOUR-HEROKU-APP-NAME-HERE # see README
-#   api_key:
-#     secure: YOUR-***ENCRYPTED***-API-KEY-HERE
+before_deploy: # omit node_modules, since we set skip_cleanup below
+  - rm -rf node_modules
+deploy: # see README for details on these keys
+  # prevents travis from deleting the build
+  skip_cleanup: true
+  provider: heroku
+  # app should be your heroku app name; see README
+  app: still-bastion-81671
+  # the secure key indicates an encrypted value; see README
+  api_key:
+    secure: QMEwDZ4SEIshAf1JoP9IKi+hMv1oBbl0wtgT1JPhyrf5karTzyMXFvc4ODPy2jVNxxEERDoCEh8bWdVc861IqLRYbg/FGTT6xtmqUMV+MtDTeW2At3G3+TUgU6rUyarixMAdNrWzDC+905eGou4OSPFXgyRyV4mhjxnAT66Dp2kXwoCmLKjOHS5M6B//yUHB8yMevECYa+17LVrVvWThuTFYLMPRFgSpGI/hIuHUlLwa7i3/sfLBy4YvT7sYN/9GAPlQD7tdwR6Y97mhRx9zIwQ9iQvXguzc9zrxj8ZS2n78y7Ji23cjSHdUAIGaFVI8gEwPi8DstQNKXsitF61UcFpVbesUvbJpAbBokLUZATluyyD0nQ01N+Hr/LfXIH/RMOwetCXFtCg2b/wPYWxNmxP1NoF2zN47r2IH/L/ozXanMB5sJ/rWrMm0lm5pnCghV+VtMiQ4EHlYoM7sX2wRW8Dnhkze/VCr4qSfqwM77GEtuSTlHMMOIpKxdIKvLVE6S8nWl0BDUkbPddbZhdCG97wI+Cjrp0hXONLxJDou8tt3IJBLfx8m6cMmQwJkePvHJR+Q46gzKwh9USQroqOhAEObD6T3iPPWJhiq8ItRBz5UsJOXYxEJwVYPP0DXIegJte7kt4q1qQ2XZRedtOn4eXg9L5fBj0rteAuzhRf/6lQ=
